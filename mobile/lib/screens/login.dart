@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(builder: (_) => const HomeScreen()));
       }
     } catch (e) {
-      _snack('Sai OTP hoặc lỗi mạng');
+      _snack('Lỗi: $e');
     } finally {
       setState(() => _loading = false);
     }
