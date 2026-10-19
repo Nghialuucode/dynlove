@@ -49,12 +49,7 @@ class DynLoveApp extends StatelessWidget {
             fontWeight: FontWeight.w700,
             letterSpacing: -0.3,
           ),
-          iconTheme: IconThemeData(color: Color(0xFF2D3142)),
-        ),
-        cardTheme: CardTheme(
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          color: Colors.white,
+          iconTheme: const IconThemeData(color: Color(0xFF2D3142)),
         ),
       ),
       home: Api.isLoggedIn ? const HomeScreen() : const LoginScreen(),
