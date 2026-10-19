@@ -5,6 +5,9 @@ on:
     branches: [ "main", "master" ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build Release APK
@@ -52,15 +55,16 @@ jobs:
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
         with:
           files: mobile/build/app/outputs/flutter-apk/app-release.apk
-          tag_name: v1.0.0-${{ github.run_number }}
-          name: DynLove MVP v1.0.0 Build ${{ github.run_number }}
+          tag_name: v1.0.0-build-${{ github.run_number }}
+          name: DynLove MVP v1.0.0 (Build #${{ github.run_number }})
           body: |
             ## 📱 DynLove MVP Android Release
-            - Bản build APK tự động từ GitHub Actions
-            - Hỗ trợ kết nối Backend qua HTTP / HTTPS và WebSocket
+            - Bản build APK tự động từ GitHub Actions.
+            - Tải trực tiếp file `app-release.apk` bên dưới về điện thoại Android để cài đặt.
+            - Hỗ trợ kết nối Backend qua HTTP / HTTPS và WebSocket.
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
