@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Api {
-  // Đổi IP này thành IP VPS của bạn (hoặc domain)
-  static const base = 'http://YOUR_VPS_IP:3000';
+  // IP VPS Backend
+  static const base = 'http://123.30.139.107:3000';
   static String? _token;
   static String? _refresh;
 
