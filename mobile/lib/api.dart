@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Api {
   // IP VPS Backend
@@ -8,26 +8,47 @@ class Api {
   static String? _token;
   static String? _refresh;
 
+  static File _getStorageFile() {
+    // Lưu vào thư mục tạm/app data an toàn không qua JNI native plugin
+    final dir = Directory.systemTemp;
+    return File('${dir.path}/dynlove_session.json');
+  }
+
   static Future<void> load() async {
-    final p = await SharedPreferences.getInstance();
-    _token = p.getString('access');
-    _refresh = p.getString('refresh');
+    try {
+      final file = _getStorageFile();
+      if (await file.exists()) {
+        final content = await file.readAsString();
+        final data = jsonDecode(content);
+        _token = data['access'];
+        _refresh = data['refresh'];
+      }
+    } catch (_) {}
   }
 
   static Future<void> saveTokens(String access, String refresh) async {
     _token = access;
     _refresh = refresh;
-    final p = await SharedPreferences.getInstance();
-    await p.setString('access', access);
-    await p.setString('refresh', refresh);
+    try {
+      final file = _getStorageFile();
+      await file.writeAsString(jsonEncode({
+        'access': access,
+        'refresh': refresh,
+      }));
+    } catch (_) {}
   }
 
   static Future<void> logout() async {
     _token = null;
     _refresh = null;
-    final p = await SharedPreferences.getInstance();
-    await p.clear();
+    try {
+      final file = _getStorageFile();
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (_) {}
   }
+
 
   static bool get isLoggedIn => _token != null;
   static String? get token => _token;
