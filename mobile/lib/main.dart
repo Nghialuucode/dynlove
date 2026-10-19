@@ -6,8 +6,12 @@ import 'screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Api.load();
-  if (Api.isLoggedIn) SocketService.connect();
+  try {
+    await Api.load();
+    if (Api.isLoggedIn) SocketService.connect();
+  } catch (e) {
+    debugPrint('Init error: $e');
+  }
   runApp(const DynLoveApp());
 }
 

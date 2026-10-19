@@ -29,23 +29,24 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Ensure Android Scaffold
+      - name: Ensure Android Scaffold & Launcher Icon
         run: |
           cd mobile
           flutter create . --platforms=android --project-name=dynlove
-          # Cho phép HTTP cleartext traffic để test với IP VPS và thêm quyền INTERNET
+          # Cấu hình icon app đẹp
+          flutter pub get
+          dart run flutter_launcher_icons
+
+          # Cấu hình quyền Internet và cleartext traffic cho Backend
           sed -i 's/<application/<application android:usesCleartextTraffic="true"/' android/app/src/main/AndroidManifest.xml
           sed -i '/<manifest/a \    <uses-permission android:name="android.permission.INTERNET"\/>' android/app/src/main/AndroidManifest.xml
-
-      - name: Get Dependencies
-        run: |
-          cd mobile
-          flutter pub get
+          sed -i '/<manifest/a \    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"\/>' android/app/src/main/AndroidManifest.xml
 
       - name: Build APK Release
         run: |
           cd mobile
           flutter build apk --release
+
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
