@@ -1,0 +1,9 @@
+api.dynlove.app {
+    reverse_proxy /socket.io/* 127.0.0.1:3000
+    reverse_proxy 127.0.0.1:3000
+    encode gzip
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+    }
+}

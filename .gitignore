@@ -1,0 +1,29 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+logs/
+
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugin-dependencies
+.flutter-plugins-dependencies
+
+# Android
+android/**/gradle-wrapper.jar
+.gradle
+captures/
+/android/app/release
+/android/key.properties
+**/android/app/release/
+*.apk
+*.aab
+
+# OS
+.DS_Store
+Thumbs.db
